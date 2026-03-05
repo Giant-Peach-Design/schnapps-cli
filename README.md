@@ -5,16 +5,7 @@ A CLI tool to scaffold new [Schnapps](https://github.com/Giant-Peach-Design/schn
 ## Installation
 
 ```bash
-npm install -g @giantpeach/schnapps-cli
-```
-
-Or clone and link locally:
-
-```bash
-git clone https://github.com/Giant-Peach-Design/schnapps-cli.git
-cd schnapps-cli
-npm install
-npm link
+npm install -g Giant-Peach-Design/schnapps-cli
 ```
 
 ## Usage
