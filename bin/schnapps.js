@@ -54,7 +54,7 @@ async function main() {
 
   // Clone the repo
   console.log(chalk.blue(`\nCloning schnapps into "${siteName}"...`));
-  execSync(`git clone --depth 1 ${REPO_URL} ${siteName}`, { stdio: 'inherit' });
+  execSync(`git clone --depth 1 --branch 3.0 ${REPO_URL} ${siteName}`, { stdio: 'inherit' });
 
   // Remove the .git directory and reinitialise
   console.log(chalk.blue('Initialising fresh git repo...'));
