@@ -1,0 +1,13 @@
+{
+  "name": "schnapps-cli",
+  "version": "1.0.0",
+  "description": "CLI tool to scaffold new Schnapps projects",
+  "bin": {
+    "schnapps": "./bin/schnapps.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "prompts": "^2.4.2"
+  }
+}
