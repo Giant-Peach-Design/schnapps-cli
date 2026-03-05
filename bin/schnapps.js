@@ -70,6 +70,14 @@ async function main() {
     writeFileSync(landoPath, lando);
   }
 
+  // Create .env from .env.example
+  const envExamplePath = path.join(targetDir, '.env.example');
+  const envPath = path.join(targetDir, '.env');
+  if (existsSync(envExamplePath)) {
+    console.log(chalk.blue('Creating .env from .env.example...'));
+    writeFileSync(envPath, readFileSync(envExamplePath, 'utf8'));
+  }
+
   // Create GitHub repo if requested
   if (createRepo && repoName) {
     console.log(chalk.blue(`\nCreating GitHub repo "${repoName}"...`));
@@ -102,8 +110,12 @@ async function main() {
     }
   }
 
+  // Start lando
+  console.log(chalk.blue('\nStarting lando...'));
+  execSync(`lando start`, { cwd: targetDir, stdio: 'inherit' });
+
   console.log(chalk.green(`\nDone! Your new schnapps project is ready in "./${siteName}"`));
-  console.log(chalk.gray(`\nNext steps:\n  cd ${siteName}\n  lando start\n  composer install`));
+  console.log(chalk.gray(`\nNext steps:\n  cd ${siteName}\n  composer install`));
 }
 
 main().catch((err) => {
