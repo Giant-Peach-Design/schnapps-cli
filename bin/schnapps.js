@@ -66,7 +66,8 @@ async function main() {
   if (existsSync(landoPath)) {
     console.log(chalk.blue('Updating .lando.yml...'));
     let lando = readFileSync(landoPath, 'utf8');
-    lando = lando.replace(/name:\s*wp-playground/, `name: ${siteName}`);
+    lando = lando.replace(/name:\s*.+/, `name: ${siteName}`);
+    lando = lando.replace(/php:\s*['"]?.+['"]?/, `php: "8.4"`);
     writeFileSync(landoPath, lando);
   }
 
@@ -75,7 +76,9 @@ async function main() {
   const envPath = path.join(targetDir, '.env');
   if (existsSync(envExamplePath)) {
     console.log(chalk.blue('Creating .env from .env.example...'));
-    writeFileSync(envPath, readFileSync(envExamplePath, 'utf8'));
+    let env = readFileSync(envExamplePath, 'utf8');
+    env = env.replace(/WP_HOME='http:\/\/example\.com'/, `WP_HOME='https://${siteName}.lndo.site'`);
+    writeFileSync(envPath, env);
   }
 
   // Create GitHub repo if requested
