@@ -11,13 +11,16 @@ const REPO_URL = 'https://github.com/Giant-Peach-Design/schnapps.git';
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0];
+  const flags = args.filter((a) => a.startsWith('--'));
+  const positional = args.filter((a) => !a.startsWith('--'));
+  const noStart = flags.includes('--no-start');
 
   if (command !== 'new') {
-    console.log(`Usage: schnapps new <site_name>`);
+    console.log(`Usage: schnapps new <site_name> [--no-start]`);
     process.exit(1);
   }
 
-  const siteName = args[1];
+  const siteName = positional[1];
 
   if (!siteName) {
     console.log(chalk.red('Please provide a site name: schnapps new <site_name>'));
@@ -114,11 +117,16 @@ async function main() {
   }
 
   // Start lando
-  console.log(chalk.blue('\nStarting lando...'));
-  execSync(`lando start`, { cwd: targetDir, stdio: 'inherit' });
+  if (!noStart) {
+    console.log(chalk.blue('\nStarting lando...'));
+    execSync(`lando start`, { cwd: targetDir, stdio: 'inherit' });
+  }
 
   console.log(chalk.green(`\nDone! Your new schnapps project is ready in "./${siteName}"`));
-  console.log(chalk.gray(`\nNext steps:\n  cd ${siteName}\n  composer install`));
+  const nextSteps = noStart
+    ? `\nNext steps:\n  cd ${siteName}\n  lando start\n  composer install`
+    : `\nNext steps:\n  cd ${siteName}\n  composer install`;
+  console.log(chalk.gray(nextSteps));
 }
 
 main().catch((err) => {
